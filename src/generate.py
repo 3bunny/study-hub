@@ -92,14 +92,42 @@ def main():
         test = gemini_client.generate_json('Return JSON {"ok": true}. Nothing else.')
         print(f"[gen] key test: {'OK' if (isinstance(test, dict) and test.get('ok')) else gemini_client.STATUS['last_error']}")
 
+    # Incremental: reuse already-generated real chapters; only fill placeholders.
+    existing = {}
+    ep = os.path.join(ROOT, "data", "course.json")
+    if os.path.exists(ep):
+        try:
+            prev = json.load(open(ep, encoding="utf-8"))
+            existing = {s["key"]: s for s in prev.get("subjects", [])}
+        except (ValueError, KeyError):
+            existing = {}
+
+    def is_real(ch):
+        return len(ch.get("blocks", [])) > 1  # placeholder chapters have a single block
+
     course = {"built": dt.datetime.utcnow().strftime("%Y-%m-%d"), "subjects": []}
     for subject in cfg["subjects"]:
-        print(f"[gen] {subject['title']}: outline...")
-        outline = gen_outline(subject, audience, n)
+        prev_sub = existing.get(subject["key"])
+        if prev_sub and prev_sub.get("chapters"):
+            # keep the established outline so titles/levels stay stable
+            outline = [{"title": c["title"], "level": c.get("level", "Beginner"),
+                        "focus": c.get("focus", "")} for c in prev_sub["chapters"]]
+            prev_by_title = {c["title"]: c for c in prev_sub["chapters"]}
+            print(f"[gen] {subject['title']}: reusing outline ({len(outline)} chapters)")
+        else:
+            print(f"[gen] {subject['title']}: outline...")
+            outline = gen_outline(subject, audience, n)
+            prev_by_title = {}
+
         titles = [c["title"] for c in outline]
         chapters = []
         for i, ch in enumerate(outline):
-            print(f"[gen]   ch {i+1}/{len(outline)}: {ch['title']}")
+            old = prev_by_title.get(ch["title"])
+            if old and is_real(old):
+                print(f"[gen]   ch {i+1}/{len(outline)}: {ch['title']} (kept)")
+                chapters.append(old)
+                continue
+            print(f"[gen]   ch {i+1}/{len(outline)}: {ch['title']} (generating)")
             content = gen_chapter(subject, ch, titles, audience)
             chapters.append({
                 "title": ch["title"], "level": ch.get("level", "Beginner"),
