@@ -1,0 +1,206 @@
+"""Render data/course.json into a single self-contained study site (docs/index.html)."""
+import json
+import os
+import sys
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+TEMPLATE = r"""<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Study Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800;900&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#f7f3ea;--ink:#1c1a17;--muted:#6b6358;--rule:#d8cfbf;--accent:#8a1f1f;--accent2:#2a3d54;--pill:#efe8da;--ok:#2e7d4f}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Georgia,'Times New Roman',serif;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--accent2)}
+header.top{border-bottom:3px double var(--ink);padding:24px 22px 0;text-align:center}
+header.top h1{font-family:'Playfair Display',Georgia,serif;font-weight:900;letter-spacing:.04em;margin:0;font-size:clamp(30px,6vw,48px)}
+header.top .tag{font-style:italic;color:var(--muted);font-size:14px;margin:6px 0 14px}
+.tabs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.tab{font-family:Helvetica,Arial,sans-serif;font-size:13.5px;font-weight:700;letter-spacing:.03em;
+  background:none;border:none;border-bottom:3px solid transparent;color:var(--muted);padding:10px 12px;cursor:pointer}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.layout{max-width:1100px;margin:0 auto;display:flex;gap:28px;padding:24px 22px 80px;align-items:flex-start}
+aside{flex:0 0 270px;position:sticky;top:14px;max-height:calc(100vh - 28px);overflow:auto}
+.progress{font-family:Helvetica,Arial,sans-serif;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.bar{height:6px;background:var(--pill);border:1px solid var(--rule);border-radius:6px;overflow:hidden;margin-bottom:16px}
+.bar > i{display:block;height:100%;background:var(--ok)}
+.lvl{font-family:Helvetica,Arial,sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--accent);margin:16px 0 6px}
+.navlist{list-style:none;margin:0;padding:0}
+.navlist li{margin:0}
+.navlist button{width:100%;text-align:left;background:none;border:none;border-left:3px solid transparent;
+  padding:7px 10px;font-family:Georgia,serif;font-size:15px;color:var(--ink);cursor:pointer;display:flex;gap:8px;align-items:baseline}
+.navlist button:hover{background:#fff}
+.navlist button.active{border-left-color:var(--accent);background:#fff;font-weight:700}
+.navlist .ck{color:var(--ok);font-size:13px;min-width:12px}
+main{flex:1;min-width:0;background:#fff;border:1px solid var(--rule);border-radius:4px;padding:30px 34px 40px}
+main h2{font-family:'Playfair Display',Georgia,serif;font-size:28px;margin:0 0 4px;color:var(--accent)}
+.crumb{font-family:Helvetica,Arial,sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+.lead{font-size:17.5px;font-style:italic;color:var(--muted);margin:0 0 20px}
+main h3{font-family:'Playfair Display',Georgia,serif;font-size:20px;margin:26px 0 8px}
+main p{font-size:16.5px;margin:0 0 14px}
+main ul,main ol{font-size:16.5px;margin:0 0 14px;padding-left:22px}
+main li{margin:6px 0}
+ol.steps li{margin:8px 0}
+pre.code{background:#1c1a17;color:#f3ede0;border-radius:5px;padding:14px 16px;overflow:auto;font-size:14px;
+  font-family:ui-monospace,Menlo,Consolas,monospace;margin:0 0 16px}
+.tip{background:#fbf7ec;border:1px solid var(--rule);border-left:4px solid var(--accent2);padding:12px 16px;border-radius:3px;margin:0 0 16px;font-size:15.5px}
+.tip::before{content:"Tip ";font-family:Helvetica,Arial,sans-serif;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent2)}
+.subsec{margin-top:30px;border-top:1px solid var(--rule);padding-top:16px}
+.subsec h4{font-family:Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin:0 0 10px}
+dl.terms{margin:0}
+dl.terms dt{font-weight:700;margin-top:10px}
+dl.terms dd{margin:2px 0 0;color:var(--ink);font-size:15.5px}
+ol.ex{padding-left:22px}
+.links a{display:block;margin:6px 0;font-weight:700}
+.chap-foot{margin-top:30px;border-top:3px double var(--ink);padding-top:16px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.complete{font-family:Helvetica,Arial,sans-serif;font-size:13px;font-weight:700;background:var(--ok);color:#fff;border:none;border-radius:20px;padding:9px 16px;cursor:pointer}
+.complete.done{background:#fff;color:var(--ok);border:1px solid var(--ok)}
+.pn{display:flex;gap:8px}
+.pn button{font-family:Helvetica,Arial,sans-serif;font-size:13px;font-weight:700;background:none;border:1px solid var(--rule);border-radius:20px;padding:8px 14px;cursor:pointer;color:var(--accent2)}
+.pn button:disabled{opacity:.35;cursor:default}
+#bionic-toggle{position:fixed;right:14px;bottom:14px;z-index:60;font-family:Helvetica,Arial,sans-serif;font-size:12px;font-weight:700;
+  background:var(--accent2);color:#fff;border:none;border-radius:20px;padding:9px 15px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.25);opacity:.9}
+@media(max-width:760px){.layout{flex-direction:column}aside{position:static;flex:1 1 auto;max-height:none;width:100%}main{padding:22px 18px}}
+</style></head>
+<body>
+<header class="top">
+  <h1>STUDY HUB</h1>
+  <div class="tag">A self-paced textbook &middot; built __BUILT__</div>
+  <div class="tabs" id="tabs"></div>
+</header>
+<div class="layout">
+  <aside id="sidebar"></aside>
+  <main id="content"></main>
+</div>
+<script>
+const COURSE = __COURSE_JSON__;
+const LS = {get(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+let S = 0, C = 0;               // subject index, chapter index ('glossary' allowed for C)
+let BIONIC = LS.get('sh_bionic', true);
+
+function esc(s){return (s==null?'':String(s)).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+function progress(subKey){return LS.get('sh_progress',{})[subKey]||{};}
+function setDone(subKey,ci,val){const all=LS.get('sh_progress',{});const p=all[subKey]||{};if(val)p[ci]=1;else delete p[ci];all[subKey]=p;LS.set('sh_progress',all);}
+
+function bionicWord(w){const m=w.match(/^([^A-Za-z0-9]*)([A-Za-z0-9]+)([\s\S]*)$/);if(!m)return w;const n=Math.max(1,Math.round(m[2].length*0.45));return m[1]+'<b>'+m[2].slice(0,n)+'</b>'+m[2].slice(n)+m[3];}
+function applyBionic(root){root.querySelectorAll('p,li,.lead,.tip,dd').forEach(el=>{const wk=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,null);const ns=[];while(wk.nextNode())ns.push(wk.currentNode);ns.forEach(t=>{if(!t.nodeValue.trim())return;const sp=document.createElement('span');sp.innerHTML=t.nodeValue.split(/(\s+)/).map(tk=>tk.trim()?bionicWord(tk):tk).join('');t.parentNode.replaceChild(sp,t);});});}
+
+function renderTabs(){
+  const t=document.getElementById('tabs');t.innerHTML='';
+  COURSE.subjects.forEach((s,i)=>{const b=document.createElement('button');b.className='tab'+(i===S?' active':'');b.textContent=s.title;b.onclick=()=>{S=i;C=loadLast(i);draw();};t.appendChild(b);});
+}
+function loadLast(i){const last=LS.get('sh_last',{});return (last[COURSE.subjects[i].key]!==undefined)?last[COURSE.subjects[i].key]:0;}
+function saveLast(){const last=LS.get('sh_last',{});last[COURSE.subjects[S].key]=C;LS.set('sh_last',last);}
+
+function renderSidebar(){
+  const sub=COURSE.subjects[S], side=document.getElementById('sidebar');
+  const done=progress(sub.key);const total=sub.chapters.length;const cnt=sub.chapters.filter((c,i)=>done[i]).length;
+  let h='<div class="progress">'+cnt+' / '+total+' chapters done</div><div class="bar"><i style="width:'+(total?Math.round(cnt/total*100):0)+'%"></i></div>';
+  ['Beginner','Intermediate','Advanced'].forEach(level=>{
+    const items=sub.chapters.map((c,i)=>({c,i})).filter(x=>(x.c.level||'Beginner')===level);
+    if(!items.length)return;
+    h+='<div class="lvl">'+level+'</div><ul class="navlist">';
+    items.forEach(({c,i})=>{h+='<li><button data-i="'+i+'" class="'+(C===i?'active':'')+'"><span class="ck">'+(done[i]?'✓':'')+'</span><span>'+esc(c.title)+'</span></button></li>';});
+    h+='</ul>';
+  });
+  h+='<div class="lvl">Reference</div><ul class="navlist"><li><button data-i="glossary" class="'+(C==='glossary'?'active':'')+'"><span class="ck"></span><span>Glossary</span></button></li></ul>';
+  side.innerHTML=h;
+  side.querySelectorAll('button[data-i]').forEach(b=>b.onclick=()=>{const v=b.getAttribute('data-i');C=(v==='glossary')?'glossary':parseInt(v,10);draw();});
+}
+
+function blockHTML(b){
+  switch(b.type){
+    case 'h': return '<h3>'+esc(b.text)+'</h3>';
+    case 'p': return '<p>'+esc(b.text)+'</p>';
+    case 'list': return '<ul>'+(b.items||[]).map(i=>'<li>'+esc(i)+'</li>').join('')+'</ul>';
+    case 'steps': return '<ol class="steps">'+(b.items||[]).map(i=>'<li>'+esc(i)+'</li>').join('')+'</ol>';
+    case 'code': return '<pre class="code"><code>'+esc(b.text)+'</code></pre>';
+    case 'tip': return '<div class="tip">'+esc(b.text)+'</div>';
+    default: return '';
+  }
+}
+
+function renderChapter(){
+  const sub=COURSE.subjects[S], ch=sub.chapters[C], el=document.getElementById('content');
+  let h='<div class="crumb">'+esc(sub.title)+' &middot; '+esc(ch.level||'')+'</div>';
+  h+='<h2>'+esc(ch.title)+'</h2>';
+  if(ch.summary)h+='<p class="lead">'+esc(ch.summary)+'</p>';
+  h+=(ch.blocks||[]).map(blockHTML).join('');
+  if((ch.key_terms||[]).length){h+='<div class="subsec"><h4>Key terms</h4><dl class="terms">'+ch.key_terms.map(t=>'<dt>'+esc(t.term)+'</dt><dd>'+esc(t.def)+'</dd>').join('')+'</dl></div>';}
+  if((ch.exercises||[]).length){h+='<div class="subsec"><h4>Practice</h4><ol class="ex">'+ch.exercises.map(e=>'<li>'+esc(e)+'</li>').join('')+'</ol></div>';}
+  if((ch.links||[]).length){h+='<div class="subsec"><h4>Official resources</h4><div class="links">'+ch.links.map(l=>'<a href="'+esc(l.url)+'" target="_blank" rel="noopener">'+esc(l.title||l.url)+' ↗</a>').join('')+'</div>';}
+  const done=progress(sub.key)[C]?true:false;
+  h+='<div class="chap-foot"><button class="complete'+(done?' done':'')+'" id="mc">'+(done?'✓ Completed':'Mark complete')+'</button>'+
+     '<div class="pn"><button id="prev">← Prev</button><button id="next">Next →</button></div></div>';
+  el.innerHTML=h;el.scrollTop=0;window.scrollTo(0,0);
+  document.getElementById('mc').onclick=()=>{const cur=progress(sub.key)[C]?true:false;setDone(sub.key,C,!cur);renderSidebar();renderChapter();};
+  document.getElementById('prev').onclick=()=>{if(C>0){C--;draw();}};
+  document.getElementById('prev').disabled=(C<=0);
+  document.getElementById('next').onclick=()=>{if(C<sub.chapters.length-1){C++;draw();}};
+  document.getElementById('next').disabled=(C>=sub.chapters.length-1);
+  if(BIONIC)applyBionic(el);
+}
+
+function renderGlossary(){
+  const sub=COURSE.subjects[S], el=document.getElementById('content');
+  const seen={},terms=[];
+  sub.chapters.forEach(c=>(c.key_terms||[]).forEach(t=>{const k=(t.term||'').toLowerCase();if(t.term&&!seen[k]){seen[k]=1;terms.push(t);}}));
+  terms.sort((a,b)=>a.term.toLowerCase().localeCompare(b.term.toLowerCase()));
+  let h='<div class="crumb">'+esc(sub.title)+' &middot; Reference</div><h2>Glossary</h2>';
+  h+='<p class="lead">'+terms.length+' key terms from across the course.</p>';
+  h+='<dl class="terms">'+terms.map(t=>'<dt>'+esc(t.term)+'</dt><dd>'+esc(t.def)+'</dd>').join('')+'</dl>';
+  el.innerHTML=h;window.scrollTo(0,0);
+  if(BIONIC)applyBionic(el);
+}
+
+function draw(){renderTabs();renderSidebar();if(C==='glossary')renderGlossary();else renderChapter();saveLast();}
+
+(function init(){
+  // restore last subject
+  const lastSub=LS.get('sh_lastsubject',null);
+  if(lastSub){const idx=COURSE.subjects.findIndex(s=>s.key===lastSub);if(idx>=0)S=idx;}
+  C=loadLast(S);
+  const btn=document.createElement('button');btn.id='bionic-toggle';
+  function lbl(){btn.textContent='⚡ Faster reading: '+(BIONIC?'ON':'OFF');}
+  btn.onclick=()=>{BIONIC=!BIONIC;LS.set('sh_bionic',BIONIC);lbl();draw();};
+  document.body.appendChild(btn);lbl();
+  // remember subject on tab change
+  const _draw=draw;window.draw=function(){LS.set('sh_lastsubject',COURSE.subjects[S].key);_draw();};
+  window.draw();
+})();
+</script>
+</body></html>
+"""
+
+
+def build(course):
+    html = TEMPLATE.replace("__COURSE_JSON__", json.dumps(course, ensure_ascii=False))
+    html = html.replace("__BUILT__", course.get("built", ""))
+    docs = os.path.join(ROOT, "docs")
+    os.makedirs(docs, exist_ok=True)
+    with open(os.path.join(docs, "index.html"), "w", encoding="utf-8") as f:
+        f.write(html)
+    open(os.path.join(docs, ".nojekyll"), "w").close()
+    return os.path.join(docs, "index.html")
+
+
+def main():
+    path = sys.argv[sys.argv.index("--course") + 1] if "--course" in sys.argv \
+        else os.path.join(ROOT, "data", "course.json")
+    with open(path, encoding="utf-8") as f:
+        course = json.load(f)
+    out = build(course)
+    print(f"[build] wrote {out} "
+          f"({sum(len(s['chapters']) for s in course['subjects'])} chapters)")
+
+
+if __name__ == "__main__":
+    main()

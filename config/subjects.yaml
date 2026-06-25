@@ -1,0 +1,12 @@
+# Audience and depth for the generated course.
+audience: "a self-taught beginner data analyst who is practical and motivated"
+chapters_per_subject: 11
+
+subjects:
+  - key: powerbi
+    title: "Power BI"
+    description: "From zero to confident in Microsoft Power BI: connecting data, shaping it, building data models, writing DAX, and designing clear reports and dashboards."
+
+  - key: predictive
+    title: "Predictive Modeling & What-If Planning"
+    description: "Forecasting and predictive modeling plus what-if scenario planning — the concepts, the methods, and how analysts use them to support real decisions (with Excel and Power BI where relevant)."
