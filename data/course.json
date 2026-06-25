@@ -1,0 +1,139 @@
+{
+  "built": "2026-06-25",
+  "subjects": [
+    {
+      "key": "powerbi",
+      "title": "Power BI",
+      "description": "From zero to confident in Microsoft Power BI: connecting data, shaping it, building data models, writing DAX, and designing clear reports and dashboards.",
+      "chapters": [
+        {
+          "title": "Power BI — Part 1",
+          "level": "Beginner",
+          "focus": "Core concepts.",
+          "summary": "",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "This chapter could not be generated on the last run. Re-run the build to populate it."
+            }
+          ],
+          "key_terms": [],
+          "exercises": [],
+          "links": []
+        },
+        {
+          "title": "Power BI — Part 2",
+          "level": "Beginner",
+          "focus": "Core concepts.",
+          "summary": "",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "This chapter could not be generated on the last run. Re-run the build to populate it."
+            }
+          ],
+          "key_terms": [],
+          "exercises": [],
+          "links": []
+        },
+        {
+          "title": "Power BI — Part 3",
+          "level": "Beginner",
+          "focus": "Core concepts.",
+          "summary": "",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "This chapter could not be generated on the last run. Re-run the build to populate it."
+            }
+          ],
+          "key_terms": [],
+          "exercises": [],
+          "links": []
+        },
+        {
+          "title": "Power BI — Part 4",
+          "level": "Beginner",
+          "focus": "Core concepts.",
+          "summary": "",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "This chapter could not be generated on the last run. Re-run the build to populate it."
+            }
+          ],
+          "key_terms": [],
+          "exercises": [],
+          "links": []
+        }
+      ]
+    },
+    {
+      "key": "predictive",
+      "title": "Predictive Modeling & What-If Planning",
+      "description": "Forecasting and predictive modeling plus what-if scenario planning — the concepts, the methods, and how analysts use them to support real decisions (with Excel and Power BI where relevant).",
+      "chapters": [
+        {
+          "title": "Predictive Modeling & What-If Planning — Part 1",
+          "level": "Beginner",
+          "focus": "Core concepts.",
+          "summary": "",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "This chapter could not be generated on the last run. Re-run the build to populate it."
+            }
+          ],
+          "key_terms": [],
+          "exercises": [],
+          "links": []
+        },
+        {
+          "title": "Predictive Modeling & What-If Planning — Part 2",
+          "level": "Beginner",
+          "focus": "Core concepts.",
+          "summary": "",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "This chapter could not be generated on the last run. Re-run the build to populate it."
+            }
+          ],
+          "key_terms": [],
+          "exercises": [],
+          "links": []
+        },
+        {
+          "title": "Predictive Modeling & What-If Planning — Part 3",
+          "level": "Beginner",
+          "focus": "Core concepts.",
+          "summary": "",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "This chapter could not be generated on the last run. Re-run the build to populate it."
+            }
+          ],
+          "key_terms": [],
+          "exercises": [],
+          "links": []
+        },
+        {
+          "title": "Predictive Modeling & What-If Planning — Part 4",
+          "level": "Beginner",
+          "focus": "Core concepts.",
+          "summary": "",
+          "blocks": [
+            {
+              "type": "p",
+              "text": "This chapter could not be generated on the last run. Re-run the build to populate it."
+            }
+          ],
+          "key_terms": [],
+          "exercises": [],
+          "links": []
+        }
+      ]
+    }
+  ]
+}
