@@ -88,6 +88,9 @@ def main():
     audience = cfg.get("audience", "a beginner")
     n = int(cfg.get("chapters_per_subject", 11))
     print(f"[gen] LLM available: {gemini_client.available()}")
+    if gemini_client.available():
+        test = gemini_client.generate_json('Return JSON {"ok": true}. Nothing else.')
+        print(f"[gen] key test: {'OK' if (isinstance(test, dict) and test.get('ok')) else gemini_client.STATUS['last_error']}")
 
     course = {"built": dt.datetime.utcnow().strftime("%Y-%m-%d"), "subjects": []}
     for subject in cfg["subjects"]:
@@ -109,6 +112,9 @@ def main():
     os.makedirs(d, exist_ok=True)
     with open(os.path.join(d, "course.json"), "w", encoding="utf-8") as f:
         json.dump(course, f, ensure_ascii=False, indent=2)
+    with open(os.path.join(d, "_diag.json"), "w", encoding="utf-8") as f:
+        json.dump({"available": gemini_client.available(),
+                   "gemini": gemini_client.STATUS}, f, indent=2)
     print(f"[gen] wrote course.json ({sum(len(s['chapters']) for s in course['subjects'])} chapters); "
           f"gemini ok/fail={gemini_client.STATUS['ok']}/{gemini_client.STATUS['fail']}")
 
