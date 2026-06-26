@@ -1,5 +1,5 @@
 {
-  "built": "2026-06-25",
+  "built": "2026-06-26",
   "subjects": [
     {
       "key": "powerbi",
@@ -10,16 +10,155 @@
           "title": "Getting Started with Power BI",
           "level": "Beginner",
           "focus": "Introduces Power BI's purpose, components, and guides through initial setup and interface navigation.",
-          "summary": "",
+          "summary": "Welcome to the exciting world of Power BI! This foundational chapter will introduce you to Power BI's core purpose, its essential components, and guide you through the initial setup process. By the end, you'll be comfortable navigating its interface and ready to dive into data analysis.",
           "blocks": [
             {
+              "type": "h",
+              "text": "Welcome to Power BI: Your Data Storytelling Companion"
+            },
+            {
               "type": "p",
-              "text": "This chapter could not be generated on the last run. Re-run the build to populate it."
+              "text": "As a motivated beginner data analyst, you're constantly looking for tools to transform raw data into compelling insights. Power BI is precisely that tool – a powerful, interactive business intelligence platform from Microsoft that enables you to connect to various data sources, clean and model your data, create stunning visualizations, and share your discoveries with others. Think of it as your digital canvas for painting data stories."
+            },
+            {
+              "type": "h",
+              "text": "What is Power BI and Why Should You Care?"
+            },
+            {
+              "type": "p",
+              "text": "At its heart, Power BI helps you make sense of your data. Instead of sifting through spreadsheets, you can build dynamic dashboards and reports that update automatically, allowing you to monitor key performance indicators (KPIs), identify trends, and uncover hidden patterns. For a data analyst, this means less time on manual reporting and more time on actual analysis and strategic thinking."
+            },
+            {
+              "type": "list",
+              "items": [
+                "**Self-Service BI:** Empower yourself and your team to create reports without relying heavily on IT.",
+                "**Interactive Visualizations:** Go beyond static charts with dynamic, drill-down capabilities.",
+                "**Connect to Anything:** Access data from hundreds of sources, from Excel and databases to cloud services.",
+                "**Powerful Data Modeling:** Build robust relationships between different data tables.",
+                "**Share and Collaborate:** Easily publish and share your reports securely with colleagues."
+              ]
+            },
+            {
+              "type": "h",
+              "text": "The Power BI Ecosystem: Key Components"
+            },
+            {
+              "type": "p",
+              "text": "Power BI isn't just one application; it's a suite of tools that work together. Understanding these components is crucial for a smooth workflow:"
+            },
+            {
+              "type": "list",
+              "items": [
+                "**Power BI Desktop:** This is your primary development tool. It's a free Windows application where you connect to data, transform it, build data models, and design reports. You'll spend most of your time here.",
+                "**Power BI Service:** This is the cloud-based SaaS (Software as a Service) component. After creating reports in Power BI Desktop, you publish them to the Power BI Service for sharing, collaboration, and setting up automatic data refreshes. It's accessed via a web browser.",
+                "**Power BI Mobile:** Dedicated apps for iOS, Android, and Windows devices that allow you to view and interact with your reports and dashboards on the go."
+              ]
+            },
+            {
+              "type": "h",
+              "text": "Getting Started: Installing Power BI Desktop"
+            },
+            {
+              "type": "p",
+              "text": "Your journey begins with installing Power BI Desktop. It's free and essential for building your reports."
+            },
+            {
+              "type": "steps",
+              "items": [
+                "**Step 1: Visit the Official Power BI Website.** Open your web browser and go to the Microsoft Power BI website.",
+                "**Step 2: Navigate to the Download Section.** Look for a 'Download' or 'Products' section. You'll typically find 'Power BI Desktop' listed there.",
+                "**Step 3: Download Power BI Desktop.** Click the download button. You might be prompted to choose your language and then select the 64-bit version (most common).",
+                "**Step 4: Run the Installer.** Once downloaded, open the installer file (.exe) and follow the on-screen instructions. The installation process is straightforward.",
+                "**Step 5: Launch Power BI Desktop.** After installation, you can find 'Power BI Desktop' in your Start Menu. Launch it to begin."
+              ]
+            },
+            {
+              "type": "tip",
+              "text": "For automatic updates and easier management, consider downloading Power BI Desktop from the Microsoft Store (search 'Power BI Desktop' in the Store app). This version updates itself regularly."
+            },
+            {
+              "type": "h",
+              "text": "First Look: Navigating the Power BI Desktop Interface"
+            },
+            {
+              "type": "p",
+              "text": "When you first open Power BI Desktop, you'll see a 'Welcome' screen. You can close this to reveal the main interface. Let's get familiar with its key areas:"
+            },
+            {
+              "type": "steps",
+              "items": [
+                "**Step 1: The Ribbon.** At the very top, similar to other Microsoft Office applications, you'll find the Ribbon with tabs like Home, Insert, Modeling, View, etc. This is where you'll access most of Power BI's functionalities.",
+                "**Step 2: Report View (Canvas).** This is the main central area where you'll design your reports by dragging and dropping visualizations and fields. It's the default view.",
+                "**Step 3: Data View.** On the left side, you'll see three icons. Click the second icon (table icon) to switch to the Data View. Here, you can inspect your raw data tables, similar to a spreadsheet, after they've been loaded.",
+                "**Step 4: Model View.** Click the third icon (model icon) on the left to switch to the Model View. This is where you'll see the relationships between your data tables, which is crucial for advanced analysis.",
+                "**Step 5: Panes on the Right.** To the right of the canvas, you'll find three essential panes: **Filters**, **Visualizations**, and **Fields**. The 'Fields' pane lists all the tables and columns you've loaded into your model. The 'Visualizations' pane allows you to select different chart types. The 'Filters' pane helps you apply filters to your report, pages, or specific visuals."
+              ]
+            },
+            {
+              "type": "h",
+              "text": "Your First Interaction: Getting Data (A Sneak Peek)"
+            },
+            {
+              "type": "p",
+              "text": "While we'll dive deep into data connection in the next chapter, let's perform a quick 'Get Data' action to see how your data appears in Power BI. For this step, create a simple Excel file named `SalesData.xlsx` with a sheet named `Sales` and columns like `Date`, `Product`, `Region`, `SalesAmount` with a few rows of dummy data."
+            },
+            {
+              "type": "steps",
+              "items": [
+                "**Step 1: Click 'Get Data'.** On the 'Home' tab of the Ribbon, click the 'Get Data' button. A dropdown will appear.",
+                "**Step 2: Select 'Excel workbook'.** From the dropdown, choose 'Excel workbook'. A file explorer window will open.",
+                "**Step 3: Browse and Select Your File.** Navigate to where you saved your `SalesData.xlsx` file, select it, and click 'Open'.",
+                "**Step 4: Choose Your Data.** A 'Navigator' window will appear. On the left, you'll see your Excel file. Expand it and select the 'Sales' sheet (or table, if you formatted it as one in Excel). You'll see a preview of your data on the right.",
+                "**Step 5: Load the Data.** Click the 'Load' button at the bottom right of the 'Navigator' window. (We'll explore 'Transform Data' in the next chapter!).",
+                "**Step 6: Observe the Fields Pane.** Once loaded, you'll see your 'Sales' table and its columns (Date, Product, Region, SalesAmount) appear in the 'Fields' pane on the right side of Power BI Desktop. Congratulations, you've just loaded your first dataset!"
+              ]
             }
           ],
-          "key_terms": [],
-          "exercises": [],
-          "links": []
+          "key_terms": [
+            {
+              "term": "Power BI Desktop",
+              "def": "The free Windows application used for developing Power BI reports, including data connection, transformation, modeling, and visualization."
+            },
+            {
+              "term": "Power BI Service",
+              "def": "The cloud-based platform for publishing, sharing, and collaborating on Power BI reports and dashboards."
+            },
+            {
+              "term": "Report View",
+              "def": "The main canvas in Power BI Desktop where users design and arrange visualizations to create reports."
+            },
+            {
+              "term": "Data View",
+              "def": "A view in Power BI Desktop that allows users to inspect and review the raw data tables loaded into the model."
+            },
+            {
+              "term": "Model View",
+              "def": "A view in Power BI Desktop used to define and manage relationships between different data tables in the data model."
+            },
+            {
+              "term": "Ribbon",
+              "def": "The menu bar at the top of Power BI Desktop, containing tabs like Home, Insert, Modeling, providing access to various functionalities."
+            },
+            {
+              "term": "Panes",
+              "def": "Interactive sections on the right side of Power BI Desktop (Fields, Visualizations, Filters) used for selecting data, choosing visual types, and applying filters."
+            }
+          ],
+          "exercises": [
+            "Install Power BI Desktop on your computer, ensuring it launches successfully.",
+            "Open Power BI Desktop and spend 15 minutes exploring the interface. Identify the Ribbon, the three main views (Report, Data, Model), and the three panes (Fields, Visualizations, Filters). Try switching between them.",
+            "Create a simple Excel file (e.g., 'MyFirstData.xlsx') with two columns and a few rows of data. Use the 'Get Data' feature to load this Excel file into Power BI Desktop. Verify that the columns appear in the 'Fields' pane."
+          ],
+          "links": [
+            {
+              "title": "Power BI Homepage",
+              "url": "https://learn.microsoft.com/power-bi/"
+            },
+            {
+              "title": "Download Power BI Desktop",
+              "url": "https://learn.microsoft.com/power-bi/fundamentals/desktop-get-the-desktop"
+            }
+          ]
         },
         {
           "title": "Connecting and Importing Your Data",
@@ -171,16 +310,168 @@
           "title": "Data Transformation with Power Query Editor",
           "level": "Beginner",
           "focus": "Covers essential data cleaning, shaping, and preparation techniques using Power Query Editor for robust data sets.",
-          "summary": "",
+          "summary": "This chapter introduces you to the Power Query Editor, the powerful engine within Power BI Desktop for data cleaning, shaping, and preparation. You'll learn essential techniques to transform raw data into a clean, structured format, ready for analysis and visualization. By mastering these skills, you'll build robust datasets that unlock accurate and insightful reports.",
           "blocks": [
             {
+              "type": "h",
+              "text": "Welcome to Power Query Editor!"
+            },
+            {
               "type": "p",
-              "text": "This chapter could not be generated on the last run. Re-run the build to populate it."
+              "text": "Before you can build stunning reports and derive insights, your data needs to be clean, consistent, and in the right shape. This is where Power Query Editor comes in. It's a built-in ETL (Extract, Transform, Load) tool in Power BI Desktop that allows you to connect to various data sources, apply a wide range of transformations, and then load the refined data into your Power BI model. Think of it as your data's personal trainer, getting it into peak condition!"
+            },
+            {
+              "type": "steps",
+              "items": [
+                "**Accessing Power Query Editor:**",
+                "1. Open Power BI Desktop.",
+                "2. On the 'Home' tab of the Power BI Desktop ribbon, click 'Transform data' (or 'Get data' -> 'Transform data' if you haven't loaded any data yet).",
+                "3. This will open a new window: the Power Query Editor."
+              ]
+            },
+            {
+              "type": "h",
+              "text": "Navigating the Power Query Editor Interface"
+            },
+            {
+              "type": "p",
+              "text": "The Power Query Editor has a user-friendly interface designed to make data transformation intuitive. Here are its key components you'll interact with regularly:"
+            },
+            {
+              "type": "list",
+              "items": [
+                "**Ribbon:** Similar to Power BI Desktop, it contains various tabs ('Home', 'Transform', 'Add Column', 'View') with tools and commands for data manipulation.",
+                "**Queries Pane (Left):** Lists all your queries (tables) that you've connected to. You can select a query here to work on it.",
+                "**Data Pane (Center):** Displays a preview of the data for the currently selected query. This is where you see the immediate effect of your transformations.",
+                "**Applied Steps Pane (Right):** This is crucial! It records every transformation step you apply to your data. You can review, reorder, modify, or delete steps here, making your data preparation process transparent and editable.",
+                "**Formula Bar:** Shows the M formula (Power Query's underlying language) for the currently selected step. While you don't need to write M code manually for most tasks, it's good to know it's there."
+              ]
+            },
+            {
+              "type": "tip",
+              "text": "The 'Applied Steps' pane is your best friend! Every action you take is recorded. This means your transformations are reproducible, auditable, and easily modifiable. If you make a mistake, you don't have to start over; just delete or edit the relevant step."
+            },
+            {
+              "type": "h",
+              "text": "Essential Data Cleaning and Shaping Techniques"
+            },
+            {
+              "type": "p",
+              "text": "Let's get hands-on with some of the most common and vital transformations you'll perform in Power Query Editor. For these examples, imagine you've loaded a sales dataset into Power Query."
+            },
+            {
+              "type": "steps",
+              "items": [
+                "**1. Renaming Columns:** Clear, descriptive column names are vital.",
+                "   *   **Action:** Double-click on the column header (e.g., 'Prod_ID') in the Data pane, type the new name (e.g., 'Product ID'), and press Enter. Alternatively, right-click the column header and select 'Rename'.",
+                "   *   **Example:** Change 'SalesDate' to 'Order Date'."
+              ]
+            },
+            {
+              "type": "steps",
+              "items": [
+                "**2. Changing Data Types:** Ensuring columns have the correct data type (Text, Number, Date, etc.) is critical for accurate calculations and visualizations.",
+                "   *   **Action:** Click the icon next to the column header (e.g., 'ABC' for Text, '123' for Number). A dropdown menu will appear. Select the appropriate data type (e.g., 'Date', 'Decimal Number', 'Whole Number').",
+                "   *   **Example:** Ensure 'Order Date' is 'Date' type and 'Revenue' is 'Decimal Number' type."
+              ]
+            },
+            {
+              "type": "steps",
+              "items": [
+                "**3. Removing Columns:** Get rid of unnecessary columns to streamline your data model and improve performance.",
+                "   *   **Action:** Select the column(s) you want to remove (Ctrl+click for multiple), then right-click and choose 'Remove Columns', or go to the 'Home' tab on the ribbon and click 'Remove Columns'.",
+                "   *   **Example:** Remove a 'Notes' column if it contains no useful information."
+              ]
+            },
+            {
+              "type": "steps",
+              "items": [
+                "**4. Filtering Rows:** Focus on specific subsets of your data.",
+                "   *   **Action:** Click the filter icon (down arrow) in the column header. This works like Excel filters. You can uncheck values, use 'Text Filters' (e.g., 'Contains', 'Begins With'), 'Number Filters' (e.g., 'Greater Than', 'Between'), or 'Date Filters'.",
+                "   *   **Example:** Filter the 'Region' column to only show 'East' and 'West' regions."
+              ]
+            },
+            {
+              "type": "steps",
+              "items": [
+                "**5. Removing Duplicates:** Ensure data integrity by eliminating redundant rows.",
+                "   *   **Action:** Select the column(s) you want to check for duplicates (e.g., 'Order ID' if each order should be unique). Right-click the column header(s) and select 'Remove Duplicates'. If you select multiple columns, it will remove rows where the combination of values in those columns is duplicated.",
+                "   *   **Example:** Remove duplicate 'Customer ID' entries if your table should only list unique customers."
+              ]
+            },
+            {
+              "type": "steps",
+              "items": [
+                "**6. Splitting Columns:** Break down a single column into multiple, more granular columns.",
+                "   *   **Action:** Select the column (e.g., 'CityState' with values like 'New York, NY'). Go to the 'Home' tab or 'Transform' tab, click 'Split Column', and choose a method (e.g., 'By Delimiter'). Specify the delimiter (e.g., ', ') and how to split (e.g., 'At each occurrence of the delimiter').",
+                "   *   **Example:** Split a 'FullName' column ('John Doe') into 'FirstName' and 'LastName' using 'By Delimiter' with a space as the delimiter."
+              ]
+            },
+            {
+              "type": "steps",
+              "items": [
+                "**7. Adding a Custom Column:** Create new columns based on calculations or logic using existing columns.",
+                "   *   **Action:** Go to the 'Add Column' tab on the ribbon and click 'Custom Column'.",
+                "   *   **Example:** Let's create a 'Profit' column from 'Revenue' and 'Cost'.",
+                "      1. In the 'Custom Column' dialog, name the new column 'Profit'.",
+                "      2. In the 'Custom column formula' box, type: `[Revenue] - [Cost]` (column names are case-sensitive and enclosed in square brackets).",
+                "      3. Click 'OK'. Power Query will add a new column with the calculated profit."
+              ]
+            },
+            {
+              "type": "h",
+              "text": "Applying Your Transformations and Loading Data"
+            },
+            {
+              "type": "steps",
+              "items": [
+                "Once you're satisfied with your data transformations, you need to load the cleaned data back into Power BI Desktop for modeling and reporting.",
+                "1. On the 'Home' tab of the Power Query Editor ribbon, click 'Close & Apply'.",
+                "2. Power Query will apply all the steps you've defined, load the transformed data into your Power BI Desktop data model, and close the Power Query Editor window."
+              ]
             }
           ],
-          "key_terms": [],
-          "exercises": [],
-          "links": []
+          "key_terms": [
+            {
+              "term": "Power Query Editor",
+              "def": "A built-in ETL tool in Power BI Desktop used for connecting to data sources, cleaning, shaping, and transforming data."
+            },
+            {
+              "term": "Applied Steps",
+              "def": "A pane in Power Query Editor that records every transformation applied to a query, allowing for review, modification, and reproducibility."
+            },
+            {
+              "term": "M Language",
+              "def": "The underlying functional programming language used by Power Query to define data transformation steps."
+            },
+            {
+              "term": "Data Type",
+              "def": "The classification of data (e.g., Text, Number, Date, Boolean) which dictates how it can be used and stored."
+            },
+            {
+              "term": "Custom Column",
+              "def": "A new column created in Power Query Editor based on a formula or logic applied to existing columns."
+            }
+          ],
+          "exercises": [
+            "Connect to a new Excel file (or CSV) containing some messy data (e.g., a list of products with 'Product Name - Category' in one column, or sales figures stored as text).",
+            "Open the Power Query Editor and apply the following transformations: rename at least two columns, change the data type of a numeric column and a date column, remove any unnecessary columns, filter rows based on a specific condition, and split a column by a delimiter.",
+            "Add a custom column that concatenates two text columns or performs a simple arithmetic calculation. Review your 'Applied Steps' pane to ensure all steps are recorded correctly. Finally, 'Close & Apply' your changes."
+          ],
+          "links": [
+            {
+              "title": "What is Power Query?",
+              "url": "https://learn.microsoft.com/en-us/power-query/power-query-what-is-power-query"
+            },
+            {
+              "title": "Power Query M formula language",
+              "url": "https://learn.microsoft.com/en-us/powerquery-m/power-query-m-reference"
+            },
+            {
+              "title": "Common Power Query tasks",
+              "url": "https://learn.microsoft.com/en-us/power-query/power-query-ui"
+            }
+          ]
         },
         {
           "title": "Building a Robust Data Model",
