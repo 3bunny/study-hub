@@ -1,5 +1,5 @@
 {
-  "built": "2026-06-27",
+  "built": "2026-06-28",
   "subjects": [
     {
       "key": "powerbi",
@@ -789,16 +789,170 @@
           "title": "Advanced DAX for Business Intelligence",
           "level": "Intermediate",
           "focus": "Delves into complex DAX functions like CALCULATE, time intelligence, and understanding filter context for sophisticated metrics.",
-          "summary": "",
+          "summary": "This chapter elevates your DAX skills, moving beyond basic aggregations to tackle complex business questions. You'll master the critical concept of filter context, unlock the power of the CALCULATE function to manipulate it, and leverage time intelligence functions for sophisticated temporal analysis, enabling you to build truly insightful metrics.",
           "blocks": [
             {
+              "type": "h",
+              "text": "Understanding Filter Context: The Foundation of Advanced DAX"
+            },
+            {
               "type": "p",
-              "text": "This chapter could not be generated on the last run. Re-run the build to populate it."
+              "text": "Before diving into complex functions, it's crucial to grasp 'Filter Context.' This is the set of filters applied to your data model at any given point, determining which rows are visible to a DAX expression. Every visual, slicer, and filter pane selection contributes to this context. When you place a measure in a table or matrix, each cell in that visual has its own unique filter context based on the row and column headers."
+            },
+            {
+              "type": "h",
+              "text": "CALCULATE: The Ultimate Filter Modifier"
+            },
+            {
+              "type": "p",
+              "text": "The CALCULATE function is arguably the most powerful and versatile function in DAX. It allows you to evaluate an expression (typically a measure or an aggregation) under a *modified* filter context. This means you can override, add, or remove filters that would normally apply, giving you precise control over your calculations."
+            },
+            {
+              "type": "code",
+              "text": "CALCULATE(<expression>, <filter1>, <filter2>, ...)",
+              "lang": "dax"
+            },
+            {
+              "type": "p",
+              "text": "The `<expression>` is what you want to calculate (e.g., `[Total Sales]`). The `<filter>` arguments are where the magic happens. These filters *override* any existing filters on the same columns or add new filters if they don't conflict. Key filter modifiers include `ALL`, `REMOVEFILTERS`, and `KEEPFILTERS`:"
+            },
+            {
+              "type": "list",
+              "items": [
+                "**ALL(<table>)**: Removes all filters from the specified table.",
+                "**ALL(<column>)**: Removes all filters from the specified column.",
+                "**REMOVEFILTERS()**: Removes all filters from the current filter context (similar to `ALL()` but often clearer).",
+                "**KEEPFILTERS()**: Modifies how filters are applied, causing new filters to *intersect* with existing ones rather than overriding them."
+              ]
+            },
+            {
+              "type": "steps",
+              "items": [
+                "**Practical Example: Calculating Sales for a Specific Category (Ignoring Visual Filters)**",
+                "Let's say you want to always see the sales for 'Bikes' regardless of what category is selected in a slicer or displayed in a table.",
+                "In Power BI Desktop, go to the 'Report' view.",
+                "In the 'Fields' pane, right-click on your 'Sales' table (or wherever you keep your measures) and select 'New measure'.",
+                "Enter the following DAX formula:"
+              ]
+            },
+            {
+              "type": "code",
+              "text": "Sales for Bikes = \nCALCULATE(\n    [Total Sales],\n    'Product'[Category] = \"Bikes\"\n)",
+              "lang": "dax"
+            },
+            {
+              "type": "p",
+              "text": "This measure will always return the total sales for products in the 'Bikes' category, even if your report page is filtered to 'Clothing'. The filter `'Product'[Category] = \"Bikes\"` inside `CALCULATE` overrides any existing filter on the 'Category' column."
+            },
+            {
+              "type": "steps",
+              "items": [
+                "**Practical Example: Percentage of Total Sales**",
+                "To calculate a percentage of total, you need a denominator that represents the total *without* the current filter context. `ALL()` is perfect for this.",
+                "First, create a measure for total sales across all products, ignoring any product-related filters:",
+                "Then, create the percentage measure:"
+              ]
+            },
+            {
+              "type": "code",
+              "text": "Total Sales All Products = CALCULATE([Total Sales], ALL('Product'))\nSales % of Total = DIVIDE([Total Sales], [Total Sales All Products])",
+              "lang": "dax"
+            },
+            {
+              "type": "tip",
+              "text": "CALCULATE is the most important function to master in DAX. It's the key to almost all advanced calculations, from time intelligence to complex comparisons. Spend time experimenting with it!"
+            },
+            {
+              "type": "h",
+              "text": "Mastering Time Intelligence with DAX"
+            },
+            {
+              "type": "p",
+              "text": "Time intelligence functions are a specialized set of DAX functions designed to simplify common date-related calculations like year-to-date, month-over-month, or same-period-last-year comparisons. For these functions to work correctly, you *must* have a dedicated 'Date Table' in your model, and it needs to be marked as such."
+            },
+            {
+              "type": "steps",
+              "items": [
+                "**Setting Up Your Date Table (UI Steps)**",
+                "Ensure you have a table in your model that contains a continuous range of dates (no gaps). This table should ideally have a single column of type 'Date' or 'Date/Time' that contains unique dates.",
+                "In Power BI Desktop, go to the 'Model' view (the third icon on the left navigation pane).",
+                "Select your 'Date' table in the diagram or from the 'Properties' pane.",
+                "In the 'Table tools' tab on the ribbon, click 'Mark as Date table' -> 'Mark as Date table'.",
+                "In the dialog box, select your primary date column (e.g., 'Date'[Date]) and click 'OK'."
+              ]
+            },
+            {
+              "type": "p",
+              "text": "With your Date table configured, you can now use powerful time intelligence functions. Some common ones include `TOTALYTD`, `TOTALQTD`, `TOTALMTD` for cumulative totals, `SAMEPERIODLASTYEAR` for year-over-year comparisons, and `DATEADD` for shifting periods."
+            },
+            {
+              "type": "code",
+              "text": "Sales YTD = TOTALYTD([Total Sales], 'Date'[Date])",
+              "lang": "dax"
+            },
+            {
+              "type": "code",
+              "text": "Sales SPLY = CALCULATE([Total Sales], SAMEPERIODLASTYEAR('Date'[Date]))\nYoY Growth % = DIVIDE([Total Sales] - [Sales SPLY], [Sales SPLY])",
+              "lang": "dax"
             }
           ],
-          "key_terms": [],
-          "exercises": [],
-          "links": []
+          "key_terms": [
+            {
+              "term": "Filter Context",
+              "def": "The set of filters applied to the data model at any given point, determining which rows are visible to a DAX expression."
+            },
+            {
+              "term": "CALCULATE",
+              "def": "The most powerful DAX function, allowing an expression to be evaluated under a modified filter context."
+            },
+            {
+              "term": "Time Intelligence",
+              "def": "A category of DAX functions designed for date-related calculations like year-to-date, month-over-month, and period comparisons."
+            },
+            {
+              "term": "Date Table",
+              "def": "A dedicated table in a Power BI data model containing a continuous range of dates, essential for time intelligence functions to work correctly."
+            },
+            {
+              "term": "ALL (DAX)",
+              "def": "A DAX function used within CALCULATE to remove filters from a specified table or column."
+            },
+            {
+              "term": "REMOVEFILTERS (DAX)",
+              "def": "A DAX function used within CALCULATE to remove all filters from the current filter context."
+            },
+            {
+              "term": "TOTALYTD",
+              "def": "A time intelligence function that calculates the year-to-date total of an expression."
+            },
+            {
+              "term": "SAMEPERIODLASTYEAR",
+              "def": "A time intelligence function that shifts the current date context to the same period of the previous year."
+            }
+          ],
+          "exercises": [
+            "Create a measure named 'Online Sales Only' that calculates the total sales specifically for the 'Online' channel, ignoring any filters applied to the 'Channel' column in your report.",
+            "Using your 'Date' table, create a measure named 'Sales Previous Month' that shows the total sales for the month immediately preceding the current filter context.",
+            "Build a measure named 'Quarter-to-Date Sales' using an appropriate time intelligence function."
+          ],
+          "links": [
+            {
+              "title": "CALCULATE function (DAX) - learn.microsoft.com",
+              "url": "https://learn.microsoft.com/dax/calculate-function-dax"
+            },
+            {
+              "title": "Time intelligence functions (DAX) - learn.microsoft.com",
+              "url": "https://learn.microsoft.com/dax/time-intelligence-functions-dax"
+            },
+            {
+              "title": "Create date tables in Power BI Desktop - learn.microsoft.com",
+              "url": "https://learn.microsoft.com/power-bi/transform-model/desktop-date-tables"
+            },
+            {
+              "title": "ALL function (DAX) - learn.microsoft.com",
+              "url": "https://learn.microsoft.com/dax/all-function-dax"
+            }
+          ]
         },
         {
           "title": "Designing Effective Reports and Visualizations",
@@ -1215,16 +1369,138 @@
           "title": "Performance Optimization and Advanced Data Management",
           "level": "Advanced",
           "focus": "Explores techniques for improving report performance, understanding storage modes (Import/DirectQuery), and implementing parameters.",
-          "summary": "",
+          "summary": "This chapter is your deep dive into making your Power BI reports not just functional, but lightning-fast and incredibly flexible. We'll explore how Power BI handles your data under the hood, master techniques to boost performance, and unlock dynamic reporting capabilities with parameters.",
           "blocks": [
             {
+              "type": "h",
+              "text": "Introduction to Performance Optimization and Advanced Data Management"
+            },
+            {
               "type": "p",
-              "text": "This chapter could not be generated on the last run. Re-run the build to populate it."
+              "text": "As your Power BI projects grow in complexity and data volume, performance becomes paramount. A slow report frustrates users, hinders decision-making, and undermines the value of your insights. This chapter equips you with the knowledge and practical skills to build robust, scalable, and highly performant Power BI solutions, ensuring your data always works for you, not against you."
+            },
+            {
+              "type": "h",
+              "text": "Understanding Data Storage Modes"
+            },
+            {
+              "type": "list",
+              "items": [
+                "<b>Import Mode:</b> This is the default and most common mode. Data is loaded directly into Power BI's highly optimized in-memory analytical engine (VertiPaq). It offers the fastest query performance and full DAX functionality, allowing for complex calculations. However, it consumes memory, has dataset size limits (1GB for Pro, more for Premium), and requires data refreshes. Best for smaller to medium-sized datasets where data latency is acceptable.",
+                "<b>DirectQuery Mode:</b> In this mode, data remains in the original source database (e.g., SQL Server, Azure Synapse). Power BI sends queries directly to the source for every interaction. This is ideal for very large datasets or when real-time data is critical, as no data is imported or duplicated. The trade-off is often slower query performance (dependent on source database speed) and limitations on certain DAX functions and Power Query transformations.",
+                "<b>Composite Models (Dual Mode):</b> Also known as \"Mixed Mode,\" this allows you to combine data from DirectQuery and Import sources within a single Power BI model. You can set individual tables to Import or DirectQuery mode. This provides flexibility, letting you import smaller, static tables for performance while keeping large, frequently updated tables in DirectQuery. It balances the benefits but adds complexity to model design."
+              ]
+            },
+            {
+              "type": "h",
+              "text": "Practical Performance Optimization Techniques"
+            },
+            {
+              "type": "p",
+              "text": "Optimizing performance involves a holistic approach, touching on your data model, DAX calculations, and report design. Addressing bottlenecks in any of these areas can lead to significant improvements."
+            },
+            {
+              "type": "list",
+              "items": [
+                "<b>Data Model Optimization:</b> A lean and efficient data model is foundational to performance.\n<ul><li><b>Power Query:</b> Remove unnecessary columns and rows as early as possible. Choose appropriate data types (e.g., <code>Whole Number</code> for IDs instead of <code>Text</code>). Ensure query folding is happening where possible.</li><li><b>Relationships:</b> Ensure correct cardinality (one-to-many is ideal) and filter direction. Avoid many-to-many relationships if possible, or resolve them with bridge tables.</li><li><b>Disable Auto Date/Time:</b> Go to <code>File > Options and settings > Options > Current File > Data Load</code> and uncheck \"Auto date/time for new files.\" Create your own date table for full control and better performance.</li></ul>",
+                "<b>DAX Optimization:</b> Efficient DAX calculations are critical, especially with large datasets.\n<ul><li><b>Variables (<code>VAR</code>):</b> Use variables to store intermediate results, making DAX more readable and often more performant by avoiding redundant calculations.</li><li><b>Filter Context:</b> Understand how <code>CALCULATE</code> modifies filter context. Prefer explicit filters within <code>CALCULATE</code> over iterating large tables with <code>FILTER</code> functions when possible.</li><li><b>Avoid Row-by-Row Operations:</b> Minimize the use of functions that iterate row-by-row over large tables (e.g., <code>SUMX</code>, <code>AVERAGEX</code>) unless absolutely necessary.</li></ul>",
+                "<b>Report & Visualization Optimization:</b> The way you design your reports also impacts performance.\n<ul><li><b>Limit Visuals:</b> Reduce the number of visuals on a single page. Too many visuals can slow down rendering.</li><li><b>Simple Visuals:</b> Prefer simpler visuals over complex ones when they convey the same message.</li><li><b>Performance Analyzer:</b> Use the built-in <code>Performance Analyzer</code> to identify slow visuals and DAX queries. Navigate to <code>View tab > Performance Analyzer > Start recording</code>, then <code>Refresh visuals</code> to see the performance breakdown. This tool is invaluable for pinpointing bottlenecks.</li></ul>"
+              ]
+            },
+            {
+              "type": "code",
+              "text": "Optimized Sales Growth = \nVAR CurrentSales = SUM(Sales[SalesAmount])\nVAR LastYearSales = CALCULATE(CurrentSales, SAMEPERIODLASTYEAR('Date'[Date]))\nRETURN DIVIDE(CurrentSales - LastYearSales, LastYearSales)",
+              "lang": "dax"
+            },
+            {
+              "type": "h",
+              "text": "Implementing Parameters for Dynamic Reports"
+            },
+            {
+              "type": "p",
+              "text": "Parameters empower your report users to interact with your data in powerful ways, allowing them to dynamically change values, dimensions, or measures without requiring you to create multiple versions of a report."
+            },
+            {
+              "type": "steps",
+              "items": [
+                "<b>What-If Parameters (Numeric Range):</b> These allow users to interactively input a single numeric value (e.g., a discount percentage, a target number) that can be used in your DAX measures.\n<ol><li>Go to the <code>Modeling tab</code> in Power BI Desktop.</li><li>Click <code>New parameter</code> and select <code>Numeric range</code>.</li><li>Configure the <code>Name</code>, <code>Data type</code>, <code>Minimum</code>, <code>Maximum</code>, and <code>Increment</code>.</li><li>Click <code>OK</code>. Power BI will create a new table and a measure for the parameter.</li><li>Drag the generated slicer to your report page.</li><li>Use the generated measure (e.g., <code>Parameter Value</code>) in your DAX calculations. For example, <code>Sales After Discount = [Total Sales] * (1 - 'Discount Percentage'[Discount Percentage Value])</code>.</li></ol>",
+                "<b>Field Parameters (Dynamic Columns/Measures):</b> These empower users to dynamically switch between different columns (dimensions) or measures in a visual, offering incredible flexibility without creating multiple visuals.\n<ol><li>Go to the <code>Modeling tab</code> in Power BI Desktop.</li><li>Click <code>New parameter</code> and select <code>Fields</code>.</li><li>Give your parameter a <code>Name</code>.</li><li>Drag the desired columns or measures from the <code>Fields pane</code> into the \"Fields\" box. You can reorder them.</li><li>Click <code>Create</code>. Power BI will create a new table and a slicer.</li><li>Drag the generated parameter field (e.g., <code>My Parameter Field</code>) into the axis or values well of a visual.</li><li>Add the generated slicer to your report page to allow users to select which field to display.</li></ol>"
+              ]
+            },
+            {
+              "type": "h",
+              "text": "Advanced Data Management Considerations"
+            },
+            {
+              "type": "list",
+              "items": [
+                "<b>Incremental Refresh:</b> This feature significantly reduces refresh times and resource consumption by only refreshing a subset of your data (e.g., the last 30 days) instead of the entire dataset. It's crucial for large datasets that update frequently.\n<ul><li><b>Prerequisites:</b> Requires a Power BI Premium, Premium Per User (PPU), or Power BI Embedded capacity. Your data source must support query folding, and the table must have a <code>Date/Time</code> column.</li><li><b>Configuration:</b> You define <code>RangeStart</code> and <code>RangeEnd</code> parameters in Power Query, then configure the incremental refresh policy on the table in Power BI Desktop (<code>Table Tools tab > Incremental refresh</code>).</li></ul>",
+                "<b>Dataflows:</b> Dataflows are self-service, cloud-based ETL (Extract, Transform, Load) processes that allow you to prepare and transform data in the Power BI service, independent of a specific dataset.\n<ul><li><b>Benefits:</b> Promotes data reusability, creates a single source of truth for common data transformations, and offloads data preparation from individual Power BI Desktop files, improving consistency and reducing refresh times for dependent datasets.</li></ul>"
+              ]
             }
           ],
-          "key_terms": [],
-          "exercises": [],
-          "links": []
+          "key_terms": [
+            {
+              "term": "Import Mode",
+              "def": "A Power BI storage mode where data is loaded into Power BI's in-memory engine for fast queries and full DAX functionality."
+            },
+            {
+              "term": "DirectQuery Mode",
+              "def": "A Power BI storage mode where data remains in the source database, and Power BI sends queries directly to the source for real-time data and large datasets."
+            },
+            {
+              "term": "Composite Model",
+              "def": "A Power BI model that combines tables from both Import and DirectQuery sources, offering flexibility and balanced performance."
+            },
+            {
+              "term": "Performance Analyzer",
+              "def": "A built-in Power BI Desktop tool used to identify and analyze the performance of individual visuals and DAX queries within a report."
+            },
+            {
+              "term": "What-If Parameter",
+              "def": "A Power BI feature that allows users to interactively input a single numeric value to be used in DAX calculations, typically via a slicer."
+            },
+            {
+              "term": "Field Parameter",
+              "def": "A Power BI feature that allows users to dynamically switch between different columns or measures displayed in a visual."
+            },
+            {
+              "term": "Incremental Refresh",
+              "def": "A Power BI Premium feature that refreshes only new or updated data in a dataset, significantly reducing refresh times and resource consumption."
+            },
+            {
+              "term": "Dataflow",
+              "def": "A self-service, cloud-based ETL process in the Power BI service for preparing and transforming data, promoting reusability and a single source of truth."
+            }
+          ],
+          "exercises": [
+            "<b>Scenario-based Storage Mode Recommendation:</b> For two distinct data scenarios (e.g., \"real-time IoT sensor data from a large Azure SQL Database\" and \"monthly budget data from a small Excel file\"), recommend the most suitable Power BI storage mode (Import, DirectQuery, or Composite) and explain your reasoning, considering performance, data freshness, and dataset size.",
+            "<b>Performance Analyzer Deep Dive:</b> Open an existing Power BI report (or create a simple one with a few visuals). Use the <code>Performance Analyzer</code> (<code>View tab > Performance Analyzer</code>) to identify the slowest visuals and DAX queries. Take screenshots of your findings and suggest at least one optimization for the slowest element.",
+            "<b>Dynamic Discount Parameter:</b> Create a new Power BI report. Add a simple table with 'Product Name' and 'Total Sales'. Implement a <code>What-If Parameter</code> for a 'Discount Percentage' (e.g., from 0% to 25% with 1% increments). Create a new DAX measure called 'Sales After Discount' that applies this parameter to your 'Total Sales'. Add the parameter slicer and the new measure to your report.",
+            "<b>Flexible Sales Analysis:</b> In a report with 'Product Name' and several sales-related measures (e.g., 'Total Sales', 'Sales Quantity', 'Average Sale Price'), create a <code>Field Parameter</code>. Include these three measures in the parameter. Add the parameter slicer to your report and use the parameter field in a bar chart's 'Values' well, allowing users to dynamically switch between viewing Total Sales, Sales Quantity, or Average Sale Price by product."
+          ],
+          "links": [
+            {
+              "title": "Power BI data storage modes",
+              "url": "https://learn.microsoft.com/power-bi/transform-model/desktop-storage-mode"
+            },
+            {
+              "title": "Use Performance Analyzer to examine report element performance",
+              "url": "https://learn.microsoft.com/power-bi/create-reports/desktop-performance-analyzer"
+            },
+            {
+              "title": "Create What If parameters in Power BI Desktop",
+              "url": "https://learn.microsoft.com/power-bi/create-reports/desktop-what-if"
+            },
+            {
+              "title": "Allow report readers to update visuals using field parameters",
+              "url": "https://learn.microsoft.com/power-bi/create-reports/power-bi-field-parameters"
+            },
+            {
+              "title": "Incremental refresh for datasets",
+              "url": "https://learn.microsoft.com/power-bi/connect-data/incremental-refresh-configure"
+            }
+          ]
         },
         {
           "title": "End-to-End Project and Best Practices",
@@ -2054,16 +2330,128 @@
           "title": "Chapter 5: Regression Analysis for Prediction",
           "level": "Intermediate",
           "focus": "Explain linear regression, its assumptions, interpretation, and how to build and evaluate simple predictive models in Excel.",
-          "summary": "",
+          "summary": "Chapter 5 delves into Regression Analysis, a powerful statistical technique for understanding and modeling the relationship between variables. You'll learn the fundamentals of linear regression, its core assumptions, and how to build and interpret simple predictive models using practical Excel examples. This chapter bridges descriptive analysis with actionable predictions, setting the stage for more complex modeling.",
           "blocks": [
             {
+              "type": "h",
+              "text": "Chapter 5: Regression Analysis for Prediction"
+            },
+            {
               "type": "p",
-              "text": "This chapter could not be generated on the last run. Re-run the build to populate it."
+              "text": "Welcome to Chapter 5! So far, we've explored data, identified trends, and touched upon basic forecasting. Now, we're going to dive into Regression Analysis, a cornerstone of predictive modeling. While forecasting often looks at a single variable's future based on its past, regression allows us to predict a variable's value based on the values of other related variables. This is incredibly powerful for understanding 'cause and effect' (or at least, correlation) and making informed decisions."
+            },
+            {
+              "type": "h",
+              "text": "Understanding Simple Linear Regression"
+            },
+            {
+              "type": "p",
+              "text": "At its heart, simple linear regression aims to find the best-fitting straight line through a set of data points. Imagine you have data on how much you spend on advertising (let's call this your 'input' or 'independent' variable, X) and the resulting sales figures (your 'output' or 'dependent' variable, Y). Linear regression helps you quantify the relationship between X and Y. The goal is to predict Y based on a given X. The fundamental equation for a simple linear regression model is: Y = a + bX + e. Here, 'Y' is the dependent variable (what we want to predict), 'X' is the independent variable (what we use to predict Y), 'a' is the Y-intercept (the predicted value of Y when X is 0), 'b' is the slope (how much Y changes for every one-unit change in X), and 'e' represents the error term or residual (the difference between the actual Y and the predicted Y)."
+            },
+            {
+              "type": "h",
+              "text": "Key Assumptions of Linear Regression"
+            },
+            {
+              "type": "p",
+              "text": "For our regression model to be reliable and for its interpretations to be valid, certain assumptions about the data and the error term should ideally hold true. While real-world data rarely perfectly satisfies all of them, it's crucial to be aware of them. The main assumptions are: 1. **Linearity**: There's a linear relationship between the independent and dependent variables. 2. **Independence**: The residuals (errors) are independent of each other. 3. **Homoscedasticity**: The variance of the residuals is constant across all levels of the independent variable (the spread of errors is consistent). 4. **Normality**: The residuals are normally distributed. Violations of these assumptions can lead to inaccurate coefficients, p-values, and predictions."
+            },
+            {
+              "type": "h",
+              "text": "Building a Simple Linear Regression Model in Excel"
+            },
+            {
+              "type": "p",
+              "text": "Let's get practical! We'll use Excel's Data Analysis ToolPak to build a simple linear regression model. Suppose you have historical data for 'Monthly Advertising Spend' (in thousands of dollars) and 'Monthly Sales Revenue' (in thousands of dollars). We want to predict sales based on advertising spend."
+            },
+            {
+              "type": "steps",
+              "items": [
+                "**Prepare Your Data**: Organize your data in two columns. For example, Column A for 'Advertising Spend' (X) and Column B for 'Sales Revenue' (Y). Make sure you have headers.",
+                "**Enable Data Analysis ToolPak**: If you haven't already, go to 'File' > 'Options' > 'Add-ins'. In the 'Manage' dropdown, select 'Excel Add-ins' and click 'Go...'. Check 'Analysis ToolPak' and click 'OK'. You should now see 'Data Analysis' under the 'Data' tab on the Excel ribbon.",
+                "**Run Regression**: Go to the 'Data' tab and click 'Data Analysis'. Select 'Regression' from the list and click 'OK'.",
+                "**Input Ranges**: In the Regression dialog box: \n    *   For 'Input Y Range', select the column containing your dependent variable (Sales Revenue).\n    *   For 'Input X Range', select the column containing your independent variable (Advertising Spend).\n    *   Check 'Labels' if your first row contains headers.\n    *   For 'Output Options', choose 'New Worksheet Ply' for the results.",
+                "**Click OK**: Excel will generate a new sheet with the regression output."
+              ]
+            },
+            {
+              "type": "h",
+              "text": "Interpreting the Regression Output"
+            },
+            {
+              "type": "p",
+              "text": "The Excel output provides a wealth of information, but for a beginner, focus on these key areas: \n*   **R-squared (R Square)**: This value (between 0 and 1) tells you the proportion of the variance in the dependent variable (Y) that can be explained by the independent variable (X). A higher R-squared (e.g., 0.75) means your model explains 75% of the variation in sales, which is generally good. \n*   **Coefficients**: Look for the 'Intercept' and the coefficient for your 'Advertising Spend' variable. These are your 'a' and 'b' values from the Y = a + bX equation. For example, if Intercept is 50 and Advertising Spend coefficient is 2, your prediction equation is: Sales = 50 + 2 * Advertising Spend. This means for every $1,000 increase in advertising spend, sales are predicted to increase by $2,000. \n*   **P-values**: For both the Intercept and your X variable, check the P-value. A P-value less than 0.05 (a common significance level) indicates that the coefficient is statistically significant, meaning it's unlikely to have occurred by chance. If your X variable's P-value is high, it suggests that advertising spend might not be a significant predictor of sales in your model."
+            },
+            {
+              "type": "h",
+              "text": "Evaluating Your Regression Model"
+            },
+            {
+              "type": "p",
+              "text": "Beyond R-squared, a good model should also make sense contextually. Always check the sign of your coefficients (does it make sense for advertising spend to have a positive impact on sales?). While Excel provides residual plots, for a beginner, simply understanding the concept of residuals (the errors) is key. Large, patterned residuals can indicate a problem with your model or a violation of assumptions. Remember, simple linear regression is best for relationships that are indeed linear. If your data shows a curve, a simple linear model won't capture it well."
+            },
+            {
+              "type": "tip",
+              "text": "Start simple! Don't get overwhelmed by all the statistics in the Excel output. Focus on R-squared, the coefficients, and their P-values first. As you gain confidence, you can explore other metrics and diagnostic plots."
             }
           ],
-          "key_terms": [],
-          "exercises": [],
-          "links": []
+          "key_terms": [
+            {
+              "term": "Regression Analysis",
+              "def": "A statistical method used to model the relationship between a dependent variable and one or more independent variables."
+            },
+            {
+              "term": "Dependent Variable (Y)",
+              "def": "The variable whose value is being predicted or explained in a regression model."
+            },
+            {
+              "term": "Independent Variable (X)",
+              "def": "The variable used to predict or explain the value of the dependent variable."
+            },
+            {
+              "term": "Linear Regression",
+              "def": "A type of regression analysis that models the relationship between variables by fitting a linear equation to observed data."
+            },
+            {
+              "term": "Coefficient",
+              "def": "The value that describes the magnitude and direction of the relationship between an independent variable and the dependent variable."
+            },
+            {
+              "term": "Intercept (a)",
+              "def": "The predicted value of the dependent variable when the independent variable is zero."
+            },
+            {
+              "term": "R-squared (R²)",
+              "def": "A statistical measure that represents the proportion of the variance in the dependent variable that can be explained by the independent variable(s) in a regression model."
+            },
+            {
+              "term": "P-value",
+              "def": "A measure of the probability that an observed difference could have occurred by random chance. In regression, it helps determine the statistical significance of coefficients."
+            },
+            {
+              "term": "Residuals (e)",
+              "def": "The difference between the observed value of the dependent variable and the value predicted by the regression model; also known as error terms."
+            },
+            {
+              "term": "Homoscedasticity",
+              "def": "An assumption of linear regression where the variance of the residuals is constant across all levels of the independent variable."
+            }
+          ],
+          "exercises": [
+            "**Hands-on Excel Regression**: Find a dataset online (e.g., 'house size vs. price', 'study hours vs. exam score') with two numerical variables. Use Excel's Data Analysis ToolPak to perform a simple linear regression. Interpret the R-squared, the coefficients, and their P-values. Write down the prediction equation.",
+            "**Predictive Scenario**: Using the regression equation you derived from the exercise above, predict the dependent variable for a new, hypothetical value of your independent variable. For example, if your equation predicts sales based on advertising, what would sales be if you spent $15,000 on advertising?",
+            "**Assumption Check (Conceptual)**: Reflect on the dataset you chose. Do you think the assumption of linearity holds true? Why or why not? (No need to perform complex tests, just think conceptually)."
+          ],
+          "links": [
+            {
+              "title": "Perform a regression analysis - Microsoft Support",
+              "url": "https://support.microsoft.com/en-us/office/perform-a-regression-analysis-f2497960-2e7d-4462-8787-363d73981195"
+            },
+            {
+              "title": "Load the Analysis ToolPak in Excel - Microsoft Support",
+              "url": "https://support.microsoft.com/en-us/office/load-the-analysis-toolpak-in-excel-6a63e592-9367-4e47-993c-ad6b92789ce4"
+            }
+          ]
         },
         {
           "title": "Chapter 6: Model Evaluation & Validation",
