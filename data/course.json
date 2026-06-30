@@ -1,5 +1,5 @@
 {
-  "built": "2026-06-29",
+  "built": "2026-06-30",
   "subjects": [
     {
       "key": "powerbi",
@@ -2472,16 +2472,128 @@
           "title": "Chapter 7: Introduction to What-If Scenario Planning",
           "level": "Intermediate",
           "focus": "Define what-if analysis, its purpose, and how to construct basic scenarios using existing models and Excel's data tables/scenario manager.",
-          "summary": "",
+          "summary": "This chapter introduces the powerful concept of What-If Scenario Planning, a critical skill for any data analyst looking to move beyond mere prediction to proactive decision-making. We'll define what what-if analysis is, explore its purpose in business, and learn how to construct basic scenarios using your existing predictive models and practical Excel tools like Data Tables and the Scenario Manager.",
           "blocks": [
             {
+              "type": "h",
+              "text": "Introduction to What-If Scenario Planning"
+            },
+            {
               "type": "p",
-              "text": "This chapter could not be generated on the last run. Re-run the build to populate it."
+              "text": "As a data analyst, you've mastered predicting what *will* happen based on historical data. But what if you could also explore what *could* happen under different conditions? That's the essence of What-If Analysis. It's about asking crucial questions like: 'What if our marketing spend increases by 20%?' or 'What if raw material costs go up by 10%?' By systematically changing input variables in your models, you can simulate various futures and understand their potential impact on your key outcomes."
+            },
+            {
+              "type": "list",
+              "items": [
+                "<b>Informed Decision Making:</b> Evaluate different strategic options by seeing their potential outcomes before committing resources.",
+                "<b>Risk Assessment:</b> Identify potential downsides and prepare contingency plans for unfavorable scenarios.",
+                "<b>Opportunity Identification:</b> Spot potential upsides and understand what conditions could lead to exceptional results.",
+                "<b>Strategic Planning:</b> Develop robust plans that account for a range of possible futures, not just the most likely one.",
+                "<b>Resource Allocation:</b> Optimize investments by understanding which inputs yield the best results under various conditions."
+              ]
+            },
+            {
+              "type": "h",
+              "text": "Connecting What-If to Your Predictive Models"
+            },
+            {
+              "type": "p",
+              "text": "Recall Chapter 5, where we built regression models like `Predicted Sales = a + b * Marketing_Spend`. What-if analysis is a direct extension of this. Once you have a validated model (as discussed in Chapter 6), you can simply plug in different values for your independent variables (like `Marketing_Spend`) to see how your dependent variable (`Predicted Sales`) changes. Your predictive model becomes the engine for your what-if scenarios."
+            },
+            {
+              "type": "h",
+              "text": "Constructing Basic Scenarios in Excel"
+            },
+            {
+              "type": "p",
+              "text": "Excel is an excellent, accessible tool for quick, practical what-if analysis, especially when you're starting out. It allows you to easily manipulate inputs and observe outputs without needing to write complex code. We'll focus on two powerful features: Data Tables and Scenario Manager."
+            },
+            {
+              "type": "h",
+              "text": "Method 1: Excel Data Tables for Single-Variable Scenarios"
+            },
+            {
+              "type": "p",
+              "text": "A Data Table lets you see how changing *one or two* input variables affects your formula's result. It's perfect for quickly generating a range of predictions based on a single changing factor, allowing you to observe trends and sensitivities."
+            },
+            {
+              "type": "steps",
+              "items": [
+                "<b>Recall your Regression Model:</b> Let's use a simple model from Chapter 5: `Predicted Sales = 1000 + 5 * Marketing_Spend`.",
+                "<b>Set up your sheet:</b> In Excel, create two cells for your model's input and output. For example, in cell B1, type 'Marketing Spend' and in C1, type 'Predicted Sales'. In B2, enter your base case marketing spend (e.g., `500`). In C2, enter your model's formula: `=1000 + 5 * B2`.",
+                "<b>Create a range of Marketing Spend values:</b> In a column (e.g., A4:A10), list different marketing spend values you want to test (e.g., 300, 400, 500, 600, 700, 800, 900).",
+                "<b>Reference the model's output:</b> In the cell *above* the first marketing spend value and *to the right* of the column header (e.g., B3), enter `=C2` (this links to your model's output).",
+                "<b>Use Data Table:</b> Select the range that includes your input values and the linked output (e.g., A3:B10). Go to `Data` tab -> `What-If Analysis` -> `Data Table`. In the dialog box, for `Column input cell:`, select `B2` (the cell where your model gets its marketing spend input). Click `OK`.",
+                "<b>Observe:</b> Excel will populate the `Predicted Sales` column (B4:B10), showing how sales change with each different marketing spend value."
+              ]
+            },
+            {
+              "type": "h",
+              "text": "Method 2: Excel Scenario Manager for Multi-Variable Scenarios"
+            },
+            {
+              "type": "p",
+              "text": "When you have multiple input variables that might change simultaneously, or you want to save and compare specific sets of inputs, Scenario Manager is your friend. It allows you to define different 'scenarios' (e.g., 'Optimistic,' 'Pessimistic,' 'Base Case') and quickly switch between them or generate a summary report."
+            },
+            {
+              "type": "steps",
+              "items": [
+                "<b>Extend your Model:</b> Let's assume a slightly more complex model: `Predicted Sales = 1000 + 5 * Marketing_Spend - 10 * Price`. In your Excel sheet, set up input cells for 'Marketing Spend' (e.g., B1) and 'Price' (e.g., B2), and your model's output cell for 'Predicted Sales' (e.g., B3) with the formula `=1000 + 5 * B1 - 10 * B2`.",
+                "<b>Open Scenario Manager:</b> Go to `Data` tab -> `What-If Analysis` -> `Scenario Manager`.",
+                "<b>Add Scenarios:</b> Click `Add...`.<br/>&nbsp;&nbsp;&nbsp;&nbsp;a. <b>Scenario Name:</b> 'Base Case'. <b>Changing cells:</b> Select `B1, B2` (your Marketing Spend and Price input cells). Click `OK`. Enter values for `B1` (e.g., `500`) and `B2` (e.g., `50`). Click `Add...`.<br/>&nbsp;&nbsp;&nbsp;&nbsp;b. <b>Scenario Name:</b> 'Optimistic'. <b>Changing cells:</b> `B1, B2`. Click `OK`. Enter values for `B1` (e.g., `700` - higher spend) and `B2` (e.g., `45` - lower price, assuming it boosts sales). Click `Add...`.<br/>&nbsp;&nbsp;&nbsp;&nbsp;c. <b>Scenario Name:</b> 'Pessimistic'. <b>Changing cells:</b> `B1, B2`. Click `OK`. Enter values for `B1` (e.g., `300` - lower spend) and `B2` (e.g., `55` - higher price). Click `OK`.",
+                "<b>View Scenarios:</b> In the Scenario Manager dialog, select a scenario (e.g., 'Optimistic') and click `Show`. Observe how your `Predicted Sales` (B3) changes instantly.",
+                "<b>Generate a Summary Report:</b> Click `Summary...`. For `Report type:`, choose `Scenario summary`. For `Result cells:`, select `B3` (your Predicted Sales output). Click `OK`. Excel will create a new sheet with a table comparing all your scenarios side-by-side."
+              ]
+            },
+            {
+              "type": "tip",
+              "text": "<b>Best Practices for What-If Scenario Planning:</b>\n<ul><li><b>Start with a Base Case:</b> Always define your most likely or current scenario first as a reference point.</li><li><b>Limit Variables:</b> Especially when starting, don't change too many variables at once. Focus on the 1-3 most impactful ones.</li><li><b>Be Realistic:</b> Scenarios should be plausible, even if they represent extreme possibilities.</li><li><b>Document Assumptions:</b> Clearly state the assumptions behind each scenario. This is crucial for transparency and understanding.</li><li><b>Focus on Actionable Insights:</b> The goal isn't just to see numbers change, but to understand what decisions you can make based on these scenarios.</li></ul>"
+            },
+            {
+              "type": "p",
+              "text": "What-if analysis transforms you from a predictor to a strategic advisor. By understanding how different factors influence outcomes, you can help your organization navigate uncertainty and make more informed, proactive decisions. In the next chapters, we'll explore more advanced modeling techniques and how to integrate these insights into powerful dashboards."
             }
           ],
-          "key_terms": [],
-          "exercises": [],
-          "links": []
+          "key_terms": [
+            {
+              "term": "What-If Analysis",
+              "def": "A process of exploring potential outcomes by changing one or more input variables in a model or system to understand their impact."
+            },
+            {
+              "term": "Scenario Planning",
+              "def": "A strategic planning method that involves creating and analyzing several plausible future scenarios to anticipate potential challenges and opportunities."
+            },
+            {
+              "term": "Data Table (Excel)",
+              "def": "An Excel tool used to show how changing one or two input variables affects the result of a formula, displaying a range of outcomes."
+            },
+            {
+              "term": "Scenario Manager (Excel)",
+              "def": "An Excel tool that allows you to create, save, and manage different sets of input values (scenarios) for a worksheet and then view or summarize their results."
+            },
+            {
+              "term": "Base Case",
+              "def": "The most likely or current scenario used as a reference point for comparison against other what-if scenarios."
+            }
+          ],
+          "exercises": [
+            "<b>Single-Variable Scenario:</b> Take one of your regression models from Chapter 5 (e.g., predicting website traffic based on ad spend, or customer churn based on support interactions). Use Excel's Data Table to explore how changes in your primary independent variable affect the predicted outcome. Create at least 7 different input values and interpret the sensitivity.",
+            "<b>Multi-Variable Scenario:</b> Expand on the previous exercise or create a new one. Identify two key independent variables that influence your predicted outcome. Using Excel's Scenario Manager, define three distinct scenarios (e.g., 'Optimistic,' 'Moderate,' 'Pessimistic') by adjusting these two variables. Generate a Scenario Summary report and write a brief paragraph explaining the key differences and implications of each scenario."
+          ],
+          "links": [
+            {
+              "title": "Use a one-variable data table to explore outcomes",
+              "url": "https://support.microsoft.com/en-us/office/use-a-one-variable-data-table-to-explore-outcomes-75416040-1282-4217-a06c-b391512750e4"
+            },
+            {
+              "title": "Use a two-variable data table to explore outcomes",
+              "url": "https://support.microsoft.com/en-us/office/use-a-two-variable-data-table-to-explore-outcomes-d11e5884-3701-4475-9279-45050f22f77e"
+            },
+            {
+              "title": "Use Scenario Manager to explore different values",
+              "url": "https://support.microsoft.com/en-us/office/use-scenario-manager-to-explore-different-values-859c8646-24a7-477b-b38d-0de07a2a9147"
+            }
+          ]
         },
         {
           "title": "Chapter 8: Advanced Forecasting Techniques & Model Selection",
@@ -2651,16 +2763,144 @@
           "title": "Chapter 10: Integrating Predictions & Scenarios in Power BI",
           "level": "Advanced",
           "focus": "Demonstrate how to visualize forecasts, build interactive what-if dashboards, and present predictive insights using Power BI for stakeholders.",
-          "summary": "",
+          "summary": "This chapter is your gateway to transforming raw predictive model outputs into actionable, interactive insights within Power BI. You'll learn how to visualize forecasts, build dynamic 'what-if' scenarios, and craft compelling dashboards that empower stakeholders to make informed decisions.",
           "blocks": [
             {
+              "type": "h",
+              "text": "10.1 Why Power BI for Predictive Insights & What-If Planning?"
+            },
+            {
               "type": "p",
-              "text": "This chapter could not be generated on the last run. Re-run the build to populate it."
+              "text": "You've spent chapters building robust predictive models and understanding scenario planning. Now, it's time to bring those insights to life. Power BI is an indispensable tool for this final, crucial step because it bridges the gap between complex analytical models and user-friendly, interactive dashboards. It allows you to present forecasts alongside actuals, enable stakeholders to test their own assumptions with 'what-if' parameters, and visualize the potential impact of different decisions in real-time."
+            },
+            {
+              "type": "h",
+              "text": "10.2 Importing Your Predictive Data into Power BI"
+            },
+            {
+              "type": "p",
+              "text": "The first step is to get your model's output into Power BI. This typically involves importing a dataset that includes your historical actuals, your model's predictions, and potentially confidence intervals. For this example, let's assume you have an Excel or CSV file containing historical sales data and a 'Predicted Sales' column for future periods."
+            },
+            {
+              "type": "steps",
+              "items": [
+                "Open Power BI Desktop.",
+                "On the 'Home' tab, click 'Get Data'.",
+                "Select 'Text/CSV' or 'Excel Workbook' (depending on your file type) and click 'Connect'.",
+                "Navigate to your data file (e.g., 'SalesForecast.csv' or 'SalesForecast.xlsx') and click 'Open'.",
+                "In the Navigator window, preview your data. Ensure columns like 'Date', 'Actual Sales', and 'Predicted Sales' are correctly identified. Click 'Load'."
+              ]
+            },
+            {
+              "type": "h",
+              "text": "10.3 Visualizing Forecasts: Actuals vs. Predictions"
+            },
+            {
+              "type": "p",
+              "text": "A fundamental visualization is comparing actual historical data with your model's predictions. A line chart is perfect for this, clearly showing past trends and future forecasts."
+            },
+            {
+              "type": "steps",
+              "items": [
+                "In Power BI Desktop, go to the 'Report' view.",
+                "From the 'Visualizations' pane, select the 'Line chart' icon.",
+                "Drag your 'Date' field to the 'X-axis' well. Ensure it's set to 'Date Hierarchy' or 'Date' as appropriate.",
+                "Drag your 'Actual Sales' field to the 'Y-axis' well.",
+                "Drag your 'Predicted Sales' field to the 'Y-axis' well as well.",
+                "You now have a line chart showing historical actuals and future predictions. You might want to add a vertical line to mark the forecast start date for clarity (using a 'Constant line' in the Analytics pane)."
+              ]
+            },
+            {
+              "type": "h",
+              "text": "10.4 Building Interactive What-If Scenarios with Parameters"
+            },
+            {
+              "type": "p",
+              "text": "This is where Power BI truly shines for predictive analytics. You can create 'What-If parameters' that allow users to dynamically adjust variables (like a marketing spend increase, a discount rate, or a growth factor) and instantly see the impact on your predictions. We'll create a parameter for 'Marketing Impact %' to adjust our predicted sales."
+            },
+            {
+              "type": "steps",
+              "items": [
+                "On the 'Modeling' tab in Power BI Desktop, click 'New parameter' > 'Numeric range'.",
+                "In the 'What-if parameter' dialog box:",
+                "Set 'Name' to 'Marketing Impact %'.",
+                "Set 'Data type' to 'Decimal number'.",
+                "Set 'Minimum' to '-0.10' (for a -10% impact).",
+                "Set 'Maximum' to '0.10' (for a +10% impact).",
+                "Set 'Increment' to '0.01' (for 1% steps).",
+                "Set 'Default' to '0'.",
+                "Ensure 'Add slicer to this page' is checked and click 'OK'. Power BI will create a new table ('Marketing Impact %') and a slicer on your report page."
+              ]
+            },
+            {
+              "type": "p",
+              "text": "Now, we need to create a new measure that uses this parameter to adjust our predicted sales."
+            },
+            {
+              "type": "code",
+              "lang": "DAX",
+              "text": "Scenario Predicted Sales = \nVAR BasePrediction = SUM('Your Sales Data'[Predicted Sales])\nVAR ImpactFactor = 'Marketing Impact %'[Marketing Impact % Value]\nRETURN\n    BasePrediction * (1 + ImpactFactor)"
+            },
+            {
+              "type": "steps",
+              "items": [
+                "Go back to your line chart.",
+                "Drag your newly created 'Scenario Predicted Sales' measure to the 'Y-axis' well.",
+                "Now, interact with the 'Marketing Impact %' slicer. You'll see the 'Scenario Predicted Sales' line dynamically adjust, showing the potential impact of different marketing scenarios on your forecast!"
+              ]
+            },
+            {
+              "type": "h",
+              "text": "10.5 Presenting Predictive Insights for Stakeholders"
+            },
+            {
+              "type": "p",
+              "text": "A dashboard isn't just a collection of charts; it's a story. For predictive insights, focus on clarity, impact, and actionability. Consider these elements:"
+            },
+            {
+              "type": "list",
+              "items": [
+                "**Key Performance Indicators (KPIs):** Display the current predicted total sales, the percentage change from the base forecast under the 'what-if' scenario, or the predicted growth rate.",
+                "**Trend Comparison:** The actual vs. predicted vs. scenario line chart is crucial.",
+                "**Impact Analysis:** Use bar charts or tables to show the predicted impact of the 'what-if' scenario on specific segments (e.g., product categories, regions).",
+                "**Clarity and Simplicity:** Avoid clutter. Use clear titles, labels, and consistent formatting. Highlight the most important numbers.",
+                "**Guidance:** Add text boxes to explain how to use the 'what-if' parameters and what insights can be drawn."
+              ]
+            },
+            {
+              "type": "tip",
+              "text": "Always remember your audience. What questions do they need answered? How will they use this information? Design your dashboard to directly address those needs, making the predictive insights easy to grasp and act upon."
             }
           ],
-          "key_terms": [],
-          "exercises": [],
-          "links": []
+          "key_terms": [
+            {
+              "term": "What-If Parameter",
+              "def": "A Power BI feature that allows users to create a numeric range slicer, enabling dynamic adjustment of a variable within measures to simulate different scenarios."
+            },
+            {
+              "term": "Scenario Planning",
+              "def": "A strategic planning method that involves creating and analyzing various hypothetical future situations to understand potential outcomes and prepare for different possibilities."
+            },
+            {
+              "term": "DAX (Data Analysis Expressions)",
+              "def": "A formula language used in Power BI (and other Microsoft products) to create custom calculations (measures, calculated columns, calculated tables) from data in your model."
+            }
+          ],
+          "exercises": [
+            "Expand on the 'Marketing Impact %' scenario: Create a second 'what-if' parameter for 'Discount Rate' (e.g., -0.05 to 0.05) and modify your 'Scenario Predicted Sales' DAX measure to incorporate both parameters. How does combining these factors change the outcome?",
+            "Imagine your model also outputs 'Predicted Lower Bound' and 'Predicted Upper Bound' for confidence intervals. Add these to your line chart to visualize the uncertainty around your forecast. (Hint: You might need to adjust the chart type or use custom error bars if available).",
+            "Design a complete Power BI dashboard page focused on 'Sales Forecast & Scenario Planning'. Include KPIs, the actual/predicted/scenario trend, and a text box explaining the dashboard's purpose and how to use the 'what-if' slicers."
+          ],
+          "links": [
+            {
+              "title": "Create a What-if parameter in Power BI Desktop",
+              "url": "https://learn.microsoft.com/en-us/power-bi/create-what-if-parameters"
+            },
+            {
+              "title": "DAX basics in Power BI Desktop",
+              "url": "https://learn.microsoft.com/en-us/power-bi/fundamentals/desktop-quickstart-learn-dax-basics"
+            }
+          ]
         },
         {
           "title": "Chapter 11: Communicating Predictive Insights & Ethical Considerations",
